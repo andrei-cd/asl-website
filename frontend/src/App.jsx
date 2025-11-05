@@ -1,12 +1,41 @@
-import "./App.css";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { User, BookOpen, Trophy } from "lucide-react";
 
-/*
-This is the starting point of our application. Here, we can begin coding 
-and transforming this page into whatever best suits our needs. 
-For example, we can start by creating a login page, home page, or an about section; 
-there are many ways to get your application up and running. 
-With App.jsx, we can also define global variables and routes to store information as well as page navigation.
-*/
-function App() {}
+// Components
+import Sidebar from "./components/Sidebar";
+import RightColumn from "./components/RightColumn";
+
+// Pages
+import AchievementsPage from "./pages/AchievementsPage";
+import LessonsPage from "./pages/LessonsPage";
+import ProfilePage from "./pages/ProfilePage";
+import LoginPage from "./pages/LoginPage";
+
+function App() {
+	const navItems = [
+		{ key: "profile", label: "Profile", icon: User, to: "/profile" },
+		{ key: "lessons", label: "Lessons", icon: BookOpen, to: "/lessons" },
+		{ key: "achievements", label: "Achievements", icon: Trophy, to: "/achievements" },
+	];
+
+	return (
+		<div className="min-h-screen bg-zinc-950 text-zinc-100">
+			{/* Fixed columns */}
+			<Sidebar items={navItems} />
+			<RightColumn streak={7} points={505} />
+
+			{/* Center – routed content only scrolls */}
+			<main className="absolute left-60 right-80 top-0 bottom-0 overflow-y-auto">
+				<Routes>
+					<Route path="/" element={<Navigate to="/lessons" replace />} />
+					<Route path="/profile" element={<ProfilePage />} />
+					<Route path="/lessons" element={<LessonsPage />} />
+					<Route path="/achievements" element={<AchievementsPage />} />
+					<Route path="/login" element={<LoginPage />} />
+				</Routes>
+			</main>
+		</div>
+	);
+}
 
 export default App;
